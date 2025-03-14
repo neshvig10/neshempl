@@ -1,0 +1,1 @@
+docker run -e DB_URL=jdbc:postgresql://host.docker.internal:<PORT>/<DB_NAME>?sslmode=disable   -e DB_USER=<USERNAME>   -e DB_PASSWORD='<PASSWORD>'   -e JWT_SECRET='<JWT_KEY>'   -p 8080:8080 usermanagement
