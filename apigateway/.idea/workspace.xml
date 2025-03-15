@@ -4,21 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4df2ffb5-7b54-43e0-af02-a8aced05a177" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/neshempl/apigateway/ApigatewayApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/neshempl/apigateway/ApigatewayApplicationTests.java" beforeDir="false" />
+    <list default="true" id="2f370e86-41fb-4ae7-a7a5-0292bbd88a92" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../apigateway/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/src/main/java/com/neshempl/apigateway/ApigatewayApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../apigateway/src/test/java/com/neshempl/apigateway/ApigatewayApplicationTests.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../jobmatiching/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jobmatiching/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jobmatiching/src/main/java/com/neshempl/jobmatiching/JobmatichingApplication.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../jobmatiching/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../jobmatiching/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../jobmatiching/src/test/java/com/neshempl/jobmatiching/JobmatichingApplicationTests.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../usermanagement/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../usermanagement/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../usermanagement/src/main/java/com/neshempl/usermanagement/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../usermanagement/src/main/java/com/neshempl/usermanagement/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../usermanagement/src/main/java/com/neshempl/usermanagement/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../usermanagement/src/main/java/com/neshempl/usermanagement/controller/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,26 +31,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="AnnotationType" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Use Maven wrapper" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 2
-}</component>
-  <component name="ProjectId" id="2u1t1m8pG0xQnS6W185akvfzV6e" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2uLJBpJMgeohtfOr0ZbL60YMs22" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
   </component>
@@ -58,51 +51,19 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.ApigatewayApplication.executor": "Run",
     "Application.apigateway.executor": "Run",
-    "Maven.apigateway [clean,install].executor": "Run",
-    "Maven.apigateway.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/dell/Desktop/NeshEmpl/apigateway (1)"
+    "last_opened_file_path": "/home/dell/Desktop/NeshEmpl/apigateway (1)/apigateway/src/main/java/com/neshempl/apigateway/config"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/apigateway/src/main/java/com/neshempl/apigateway/config" />
     </key>
-    <key name="ExtractSuperBase.RECENT_KEYS">
-      <recent name="com.neshempl.apigateway.config" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="apigateway" type="Application" factoryName="Application">
-      <envs>
-        <env name="DB_PASSWORD" value="&quot;Password123#&quot;" />
-        <env name="DB_URL" value="jdbc:postgresql://localhost:5432/neshempl?sslmode=disable" />
-        <env name="DB_USER" value="postgres" />
-        <env name="JWT_SECRET" value="&quot;ZYFijv2+KJlbw+8guBbyrf8GHuBD5u6kjEOCQ3fzSLnkLu5vYvAIALHJC99kWwJL&quot;" />
-      </envs>
-      <option name="envFilePaths">
-        <option value="$PROJECT_DIR$/.env" />
-      </option>
-      <option name="MAIN_CLASS_NAME" value="com.neshempl.apigateway.ApigatewayApplication" />
-      <module name="apigateway" />
-      <extension name="net.ashald.envfile">
-        <option name="IS_ENABLED" value="false" />
-        <option name="IS_SUBST" value="false" />
-        <option name="IS_PATH_MACRO_SUPPORTED" value="false" />
-        <option name="IS_IGNORE_MISSING_FILES" value="false" />
-        <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="false" />
-        <ENTRIES>
-          <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-        </ENTRIES>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -114,11 +75,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4df2ffb5-7b54-43e0-af02-a8aced05a177" name="Changes" comment="" />
-      <created>1741427695246</created>
+      <changelist id="2f370e86-41fb-4ae7-a7a5-0292bbd88a92" name="Changes" comment="" />
+      <created>1742021788960</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1741427695246</updated>
+      <updated>1742021788960</updated>
     </task>
     <servers />
   </component>
