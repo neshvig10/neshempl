@@ -1,0 +1,14 @@
+server :
+  port : 8765
+
+spring :
+  application :
+    name : apigateway
+
+cloud :
+  gateway :
+    routes :
+      - id : usermanagement
+        uri : http://localhost:8080
+        predicates :
+          - Path=/usermanagement/**

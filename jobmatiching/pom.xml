@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.neshempl</groupId>
-	<artifactId>jobmatiching</artifactId>
+	<artifactId>jobmatching</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jobmatiching</name>
 	<description>Microservice - 4</description>
