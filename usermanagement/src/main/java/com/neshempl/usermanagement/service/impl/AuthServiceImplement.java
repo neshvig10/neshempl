@@ -40,20 +40,47 @@ public class AuthServiceImplement implements AuthService {
         System.out.println("user1"+registerRequest.getUserRole());
         System.out.println("user1"+registerRequest.getUserPassword());
 
-        if (userRepository.existsByuserPhone(registerRequest.getUserPhone())) {
+        if (userRepository.existsByuserPhone(registerRequest.getUserPhone()) || userRepository.existsByuserEmail(registerRequest.getUserEmail())) {
             User user = userRepository.getByUserPhone(registerRequest.getUserPhone());
-            Set<Role> roles = user.getUserRole();
+
             Set <String> roleNames = new HashSet<>();
-            for (Role role : roles){
-                roleNames.add(role.getRoleName());
+            Set<Role> roles = new HashSet<>();
+            if (user!=null){
+                roles = user.getUserRole();
+                for (Role role : roles){
+                    roleNames.add(role.getRoleName());
+                }
             }
+
+            User user1 = userRepository.getByUserEmail(registerRequest.getUserEmail());
+
+            Set<String> roleNames1 = new HashSet<>();
+            Set<Role> roles1 = new HashSet<>();
+
+            if (user1!=null){
+                roles1 = user1.getUserRole();
+                for (Role role : roles1){
+                    roleNames1.add(role.getRoleName());
+                }
+            }
+
+
+
             if (roleNames.contains(registerRequest.getUserRole())){
                 return ResponseEntity.ok("Phone number already exists");
+            } else if (roleNames1.contains(registerRequest.getUserRole())) {
+                return ResponseEntity.ok("Email already exists");
             }
             else{
                 Role role = new Role(registerRequest.getUserRole());
-                roles.add(role);
-                userRepository.save(user);
+                if (user!=null){
+                    roles.add(role);
+                    userRepository.save(user);
+                } else if (user1!=null) {
+                    roles1.add(role);
+                    userRepository.save(user1);
+                }
+
                 return ResponseEntity.ok("Registered");
             }
         }

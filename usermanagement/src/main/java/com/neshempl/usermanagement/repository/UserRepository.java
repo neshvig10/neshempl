@@ -32,4 +32,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
                           @Param(value = "userEmail") String userEmail,
                           @Param(value = "userPassword") String userPassword
                           );
+
+    boolean existsByuserEmail(String userEmail);
 }

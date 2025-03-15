@@ -36,6 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable() // Disable CSRF for testing purposes
+                .cors().and()
                 .authorizeRequests()
                 .requestMatchers("/api/**").permitAll() // Allow all requests to /api/**
                 .requestMatchers(HttpMethod.GET).permitAll() // Allow all GET requests
