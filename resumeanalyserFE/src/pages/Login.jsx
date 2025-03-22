@@ -19,8 +19,9 @@ const Login = () => {
     e.preventDefault();
 
     setMessage("");
+    const roleUser = document.getElementById("role").options[document.getElementById("role").selectedIndex].value
 
-    setRole(document.getElementById("role").value);
+    setRole(roleUser);
 
     const user = {
       userPhone: userPhone,
@@ -37,23 +38,25 @@ const Login = () => {
 
       let token = response.data;
       console.log(response.data);
+      console.log(userPhone,role);
+      
       localStorage.setItem("jwtToken",token);
       localStorage.setItem("userPhone",userPhone);
       localStorage.setItem("userRole",role);
-      login(userPhone);
+
+      login(user);
+      //setTimeout(() => {
       navigate("/");
-      window.location.reload(); 
+
+      //}, 2000);
+      //setTimeout(() => {
+      window.location.reload();
+      //}, 2000);
 
     }catch(err){
       if (err.response){
-        if (err.response.status===400){
-          setMessage("Phone number does not exists");
-        }
-        else if (err.response.status === 401){
-          setMessage("Password is wrong !");
-        }
-        else{
-          setMessage("Login failed, try again");
+        if (err.response.status!==200){
+          setMessage(err.response.data);
         }
       }
       else{

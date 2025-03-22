@@ -10,12 +10,12 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const savedToken = localStorage.getItem("jwtToken");
         if (savedToken) {
-            setUser({ user: localStorage.getItem("userPhone") });  // Set the user if token exists
+            setUser(localStorage.getItem("userPhone"));  // Set the user if token exists
         }
     }, []);
 
     const login = (user) => {
-        setUser({ user });
+        setUser(user);
         localStorage.setItem("userPhone", user);  // Save the user token to localStorage
     };
 

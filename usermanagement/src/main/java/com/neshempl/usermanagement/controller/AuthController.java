@@ -33,4 +33,9 @@ public class AuthController {
         return authService.register(registerRequest);
     }
 
+    @PostMapping(value = "/addRole")
+    private ResponseEntity<String> updateRole(String role,Long userId){
+        return authService.updateRole(role,userId);
+    }
+
 }

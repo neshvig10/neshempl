@@ -15,6 +15,8 @@ public interface AuthService {
     public ResponseEntity<String> register(RegisterRequest registerRequest);
 
     public ResponseEntity<String> login(LoginRequest loginRequest);
+
+    public ResponseEntity<String> updateRole(String role,Long userId);
 }
 
 
