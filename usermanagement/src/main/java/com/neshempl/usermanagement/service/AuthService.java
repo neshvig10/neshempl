@@ -12,11 +12,11 @@ public interface AuthService {
 
     User getUserById(Long user_id);
 
-    public ResponseEntity<String> register(RegisterRequest registerRequest);
+    public String register(RegisterRequest registerRequest);
 
-    public ResponseEntity<String> login(LoginRequest loginRequest);
+    public String login(LoginRequest loginRequest);
 
-    public ResponseEntity<String> updateRole(String role,Long userId);
+    public String updateRole(String role,Long userId);
 }
 
 

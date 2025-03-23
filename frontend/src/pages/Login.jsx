@@ -1,60 +1,77 @@
 import axios from "axios";
-import {React, useState} from "react";
+import { React, useState } from "react";
 import "tailwindcss";
 
+const Login = () => {
+  const [userPhone, setUserPhone] = useState();
+  const [userPassword, setUserPassword] = useState();
+  const [message, setMessage] = useState();
 
-const Login = ()=> {
+  function messageDisplay(message){
+    document.getElementById("message").style.color="red";
+    setMessage(message);
+    
+  }
+  function hasWhiteSpace(s) {
+    return s.indexOf(' ') >= 0;
+  }
 
-    const [userPhone, setUserPhone] = useState();
-    const [userPassword, setUserPassword] = useState();
-    const [message,setMessage] = useState();
+  const loginUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/usermanagement/api/auth/login?" +
+          "userPhone=" +
+          userPhone +
+          "&userPassword=" +
+          userPassword
+      );
+      console.log(response);
+      if (hasWhiteSpace(response.data)){
+        messageDisplay(response.data);
+        return;
+      }
+      else{
+        console.log(response.data);
+        localStorage.setItem("jwtToken",response.data);
+      }
 
-    function loginUser(){
-
-        try {
-            const jwtToken = axios.post("http://localhost:8080/usermanagement/api/auth/login?"+"userPhone="+userPhone+"&userPassword="+userPassword);
-            console.log(jwtToken);
-            
-        
-        } catch (error) {
-            if (error.response){
-                if (error.response.status===400){
-                  setMessage("Phone number does not exists");
-                }
-                else if (error.response.status === 401){
-                  setMessage("Password is wrong !");
-                }
-                else{
-                  setMessage("Login failed, try again");
-                }
-              }
-              else{
-                setMessage("Error occured, try again");
-              }
-            
-        }       
+    } catch (error) {
+        console.log(error);
+        messageDisplay("Error occurred during login");   
     }
+  };
 
+  return (
+    <>
+      <div className="border-1 absolute mx-10">
 
+        <form action="" onSubmit={loginUser} method="post">
 
-    return (
-        <>  
-            <div className="border-1 absolute">
-                <div value={message} className="text-red-500">
-                </div>
-                <div className="flex flex-row justify-between">
-                    <label htmlFor="userPhone">Phone Number</label>
-                    <input value={userPhone} onChange={(e)=> setUserPhone(e.target.value)} type="number" id="userPhone"/>
-                </div>
-                <div className="flex flex-row justify-between">
-                    <label htmlFor="userPassword">Password</label>
-                    <input value={userPassword} onChange={(e)=> setUserPassword(e.target.value)} type="password" id="userPassword" />
-                </div>
-                <button onClick={loginUser()}>Login</button>
-                Don't have an account ? <a href="/register">Register</a>
-            </div>
-        </>
-    )
-}
+        <div id="message" className="text-red-500"><p>{message}</p></div>
+        <div className="flex flex-row justify-between">
+          <label htmlFor="userPhone">Phone Number</label>
+          <input
+            value={userPhone}
+            onChange={(e) => setUserPhone(e.target.value)}
+            type="number"
+            id="userPhone"
+          />
+        </div>
+        <div className="flex flex-row justify-between">
+          <label htmlFor="userPassword">Password</label>
+          <input
+            value={userPassword}
+            onChange={(e) => setUserPassword(e.target.value)}
+            type="password"
+            id="userPassword"
+          />
+        </div>
+        <button type="submit">Login</button>
+        </form>
+        Don't have an account ? <a href="/register">Register</a>
+      </div>
+    </>
+  );
+};
 
 export default Login;
