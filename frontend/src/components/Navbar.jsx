@@ -4,7 +4,7 @@ import {React} from "react";
 const Navbar = ()=>{
     return (
         <>
-            <div className="flex flex-row justify-between w-full fixed top-0 bg-amber-300">
+            <div className="flex flex-row justify-between w-full fixed top-0 bg-amber-300" style={{ backgroundColor: '#fcd34d',height : '35px', paddingTop : '20px', paddingLeft : '5px',paddingRight : '5px'}}>
                 <div>
                     <a className="m-3 text-amber-600 no-underline" href="">neshempl</a>
                     Role=="EMPLOYEE" ?
