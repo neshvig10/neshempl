@@ -1,16 +1,29 @@
 import { React, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import axios from "axios";
 
 const Navbar = () => {
   const { logout } = useContext(AuthContext);
 
-  const [isLoggedIn,setIsLoggedIn] = useState();
-  const [userRoleAuth ,setuserRoleAuth] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState();
+  const [userRoleAuth, setuserRoleAuth] = useState();
+  const [userId, setUserId] = useState();
 
-  useEffect(()=>{
+  const getUserId = async () => {
+    const userid = await axios.get(
+      "http://localhost:8080/usermanagement/api/user/useridfromjwt" +
+        "?jwt=" +
+        localStorage.getItem("jwtToken")
+    );
+    console.log(userid);
+    setUserId(userid.data);
+  };
+
+  useEffect(() => {
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
-    setuserRoleAuth(localStorage.getItem("userRoleAuth"))
-  },[])
+    setuserRoleAuth(localStorage.getItem("userRoleAuth"));
+    setUserId(getUserId());
+  }, []);
 
   return (
     <>
@@ -77,12 +90,16 @@ const Navbar = () => {
             </div>
           ) : (
             <div>
-              <a onClick={logout} className="m-3 text-amber-600 no-underline" href="/">
+              <a
+                onClick={logout}
+                className="m-3 text-amber-600 no-underline"
+                href="/"
+              >
                 Logout
               </a>
               <a
                 className="m-3 text-amber-600 no-underline"
-                href="/profile/{userId}"
+                href={`/profile/${userId}`}
               >
                 Profile
               </a>
