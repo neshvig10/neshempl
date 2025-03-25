@@ -48,6 +48,8 @@ const Login = () => {
         localStorage.setItem("userRoleAuth",userRole);
         login(response.data);
         navigate("/");
+        window.location.reload(); 
+
       }
     } catch (error) {
       console.log(error);

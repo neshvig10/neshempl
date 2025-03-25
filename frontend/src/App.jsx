@@ -5,11 +5,18 @@ import Register from "./pages/Register";
 import UploadResume from "./pages/UploadResume";
 import HomePage from "./pages/HomePage";
 import PostJob from "./pages/PostJob";
-import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 function App() {
-  const { isLoggedIn } = useContext(AuthContext);
+
+  const [isLoggedIn,setIsLoggedIn] = useState();
+
+  useEffect(()=>{
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+  })
+
+
 
   return (
     <>
@@ -21,9 +28,9 @@ function App() {
           <Route path="/register" element={<Register></Register>}></Route>
           <Route
             path="/uploadresume"
-            element={<UploadResume></UploadResume>}
+            element={!isLoggedIn ? <Login></Login> : <UploadResume></UploadResume>}
           ></Route>
-          <Route path="/postjob" element={<PostJob></PostJob>}></Route>
+          <Route path="/postjob" element={!isLoggedIn ? <Login></Login> : <PostJob></PostJob>}></Route>
         </Routes>
       </BrowserRouter>
     </>

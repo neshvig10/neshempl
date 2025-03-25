@@ -4,13 +4,13 @@ import { AuthContext } from "../contexts/AuthContext";
 const Navbar = () => {
   const { logout } = useContext(AuthContext);
 
-  const [isLoggedIn,setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
-  const [userRoleAuth ,setuserRoleAuth] = useState(localStorage.getItem("userRoleAuth"));
+  const [isLoggedIn,setIsLoggedIn] = useState();
+  const [userRoleAuth ,setuserRoleAuth] = useState();
 
   useEffect(()=>{
     setIsLoggedIn(localStorage.getItem("isLoggedIn"));
     setuserRoleAuth(localStorage.getItem("userRoleAuth"))
-  })
+  },[])
 
   return (
     <>
