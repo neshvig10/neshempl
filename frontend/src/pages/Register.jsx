@@ -8,7 +8,9 @@ const Register = () => {
   const [userEmail, setUserEmail] = useState();
   const [userPassword, setUserPassword] = useState();
   const [userConfirmPassword, setUserConfirmPassword] = useState();
+  const [userRole,setUserRole] = useState("EMPLOYEE");
   const navigate = useNavigate();
+
 
   const [message, setMessage] = useState();
 
@@ -37,7 +39,9 @@ const Register = () => {
           "&userEmail=" +
           userEmail +
           "&userPassword=" +
-          userPassword
+          userPassword +
+          "&userRoles=" +
+          userRole 
       );
       if (response.data === "Registered") {
         console.log("Registered");
@@ -112,7 +116,7 @@ const Register = () => {
               style={{ marginTop: "5px", marginBottom: "5px" }}
             >
               <label htmlFor="">Role</label>
-              <select name="" id="">
+              <select name="role" id="userole" onChange={(e) => setUserRole(e.target.value)}>
                 <option value="EMPLOYEE">EMPLOYEE</option>
                 <option value="EMPLOYER">EMPLOYER</option>
               </select>

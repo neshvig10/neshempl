@@ -1,18 +1,24 @@
 import axios from "axios";
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "tailwindcss";
+import { AuthContext} from "../contexts/AuthContext";
 
 const Login = () => {
+
+  const {login,setUserRoleAuth} = useContext(AuthContext);
+
   const [userPhone, setUserPhone] = useState();
   const [userPassword, setUserPassword] = useState();
   const [message, setMessage] = useState();
+  const [userRole,setUserRole] = useState("EMPLOYEE");
   const navigate = useNavigate();
 
   function messageDisplay(message) {
     document.getElementById("message").style.color = "red";
     setMessage(message);
   }
+
   function hasWhiteSpace(s) {
     return s.indexOf(" ") >= 0;
   }
@@ -24,7 +30,9 @@ const Login = () => {
           "userPhone=" +
           userPhone +
           "&userPassword=" +
-          userPassword
+          userPassword +
+          "&userRole=" +
+          userRole
       );
       console.log(response);
       if (hasWhiteSpace(response.data)) {
@@ -32,7 +40,9 @@ const Login = () => {
         return;
       } else {
         console.log(response.data);
+        login(response.data);
         localStorage.setItem("jwtToken", response.data);
+        setUserRoleAuth(userRole);
         navigate("/");
       }
     } catch (error) {
@@ -47,7 +57,7 @@ const Login = () => {
         <div
           className="border-2"
           style={{
-            borderColor : "#fcd34d",
+            borderColor: "#fcd34d",
             height: "200px",
             width: "300px",
             paddingRight: "20px",
@@ -56,7 +66,9 @@ const Login = () => {
             marginTop: "350px",
           }}
         >
-          <div><h3>Login</h3></div>
+          <div>
+            <h3>Login</h3>
+          </div>
           <form action="" onSubmit={loginUser} method="post">
             <div id="message" className="text-red-500">
               <p>{message}</p>
@@ -79,7 +91,7 @@ const Login = () => {
               style={{ marginTop: "5px", marginBottom: "5px" }}
             >
               <label htmlFor="">Role</label>
-              <select name="" id="">
+              <select name="role" id="userrole" onChange={(e) => setUserRole(e.target.value)}>
                 <option value="EMPLOYEE">EMPLOYEE</option>
                 <option value="EMPLOYER">EMPLOYER</option>
               </select>
@@ -98,7 +110,19 @@ const Login = () => {
               />
             </div>
             <div className="flex flex-row align-center justify-center">
-            <button style={{backgroundColor : "#fcd34d",borderColor :"#fcd34d",borderRadius : "5px",height : "30px", width : "100px",marginTop : "5px"}} type="submit">Login</button>
+              <button
+                style={{
+                  backgroundColor: "#fcd34d",
+                  borderColor: "#fcd34d",
+                  borderRadius: "5px",
+                  height: "30px",
+                  width: "100px",
+                  marginTop: "5px",
+                }}
+                type="submit"
+              >
+                Login
+              </button>
             </div>
             <div
               className="flex flex-row align-center justify-center"
