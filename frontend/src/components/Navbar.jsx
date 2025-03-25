@@ -1,8 +1,16 @@
-import { React, useContext } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Navbar = () => {
-  const { isLoggedIn, userRoleAuth } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
+
+  const [isLoggedIn,setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
+  const [userRoleAuth ,setuserRoleAuth] = useState(localStorage.getItem("userRoleAuth"));
+
+  useEffect(()=>{
+    setIsLoggedIn(localStorage.getItem("isLoggedIn"));
+    setuserRoleAuth(localStorage.getItem("userRoleAuth"))
+  })
 
   return (
     <>
@@ -58,7 +66,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex flex-row">
-          {isLoggedIn ? (
+          {!isLoggedIn ? (
             <div>
               <a className="m-3 text-amber-600 no-underline" href="/login">
                 Login
@@ -69,7 +77,7 @@ const Navbar = () => {
             </div>
           ) : (
             <div>
-              <a className="m-3 text-amber-600 no-underline" href="/logout">
+              <a onClick={logout} className="m-3 text-amber-600 no-underline" href="/">
                 Logout
               </a>
               <a

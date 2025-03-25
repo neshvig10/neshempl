@@ -6,7 +6,7 @@ import { AuthContext} from "../contexts/AuthContext";
 
 const Login = () => {
 
-  const {login,setUserRoleAuth} = useContext(AuthContext);
+  const {login} = useContext(AuthContext);
 
   const [userPhone, setUserPhone] = useState();
   const [userPassword, setUserPassword] = useState();
@@ -23,7 +23,10 @@ const Login = () => {
     return s.indexOf(" ") >= 0;
   }
 
-  const loginUser = async () => {
+  const loginUser = async (e) => {
+
+    e.preventDefault();
+    
     try {
       const response = await axios.post(
         "http://localhost:8080/usermanagement/api/auth/login?" +
@@ -40,9 +43,10 @@ const Login = () => {
         return;
       } else {
         console.log(response.data);
+        localStorage.setItem("jwtToken",response.data);
+        localStorage.setItem("isLoggedIn",true);
+        localStorage.setItem("userRoleAuth",userRole);
         login(response.data);
-        localStorage.setItem("jwtToken", response.data);
-        setUserRoleAuth(userRole);
         navigate("/");
       }
     } catch (error) {
@@ -50,6 +54,7 @@ const Login = () => {
       messageDisplay("Error occurred during login");
     }
   };
+  
 
   return (
     <>

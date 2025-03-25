@@ -5,8 +5,12 @@ import Register from "./pages/Register";
 import UploadResume from "./pages/UploadResume";
 import HomePage from "./pages/HomePage";
 import PostJob from "./pages/PostJob";
+import { useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext";
 
 function App() {
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <>
       <BrowserRouter>
