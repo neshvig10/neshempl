@@ -46,8 +46,10 @@ public class JwtUtil {
     public Long extractUserId(String token) {
         Claims claims = extractAllClaims(token);
         System.out.println(claims.toString());
-        String userId = claims.getId(); // Ensure 'id' is set in the token
-        return userId != null ? Long.valueOf(userId) : null;
+        Integer userId =  (Integer)claims.get("userId"); // Ensure 'id' is set in the token
+        Long userID = ((Number) userId).longValue();
+        return userID != null ? (userID) : null;
+
     }
 
     // Method to extract all claims from the token

@@ -52,6 +52,7 @@ public class AuthServiceImplement implements AuthService {
         Role role = new Role(registerRequest.getUserRole());
         roles.add(role);
         User user = new User(registerRequest.getUserName(),registerRequest.getUserPhone(), registerRequest.getUserEmail(),registerRequest.getUserPassword(),roles);
+        userRepository.save(user);
         return "Registered";
 
     }

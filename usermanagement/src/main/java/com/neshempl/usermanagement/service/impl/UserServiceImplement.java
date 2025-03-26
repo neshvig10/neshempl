@@ -1,6 +1,7 @@
 package com.neshempl.usermanagement.service.impl;
 
 
+import com.neshempl.usermanagement.config.JwtUtil;
 import com.neshempl.usermanagement.entity.User;
 import com.neshempl.usermanagement.repository.UserRepository;
 import com.neshempl.usermanagement.service.UserService;
@@ -13,8 +14,15 @@ public class UserServiceImplement implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
     public User userDetails(Long userId){
         return userRepository.getByUserId(userId);
+    }
+
+    public Long userIdFromJwt(String jwt){
+        return jwtUtil.extractUserId(jwt);
     }
 
     public String  editUserDetails(User user){

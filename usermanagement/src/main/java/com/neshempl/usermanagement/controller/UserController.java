@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RequestMapping("/usermanagement/api/user")
 @RestController
 public class UserController {
@@ -24,5 +24,10 @@ public class UserController {
     public String editDetails(@PathVariable("user_id") Long user_id, User user){
         user.setUserId(user_id);
         return userService.editUserDetails(user);
+    }
+
+    @GetMapping(value = "/useridfromjwt")
+    public Long userIdFromJwt(String jwt){
+        return userService.userIdFromJwt(jwt);
     }
 }

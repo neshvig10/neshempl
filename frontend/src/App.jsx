@@ -5,7 +5,6 @@ import Register from "./pages/Register";
 import UploadResume from "./pages/UploadResume";
 import HomePage from "./pages/HomePage";
 import PostJob from "./pages/PostJob";
-import { AuthContext } from "./contexts/AuthContext";
 import { useEffect, useState } from "react";
 import Profile from "./pages/Profile";
 
@@ -18,8 +17,8 @@ function App() {
 
   return (
     <>
+      <Navbar></Navbar>
       <BrowserRouter>
-        <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<HomePage></HomePage>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
@@ -32,27 +31,25 @@ function App() {
           ></Route>
           <Route
             path="/postjob"
-            element={
-              !isLoggedIn ? <Login></Login> : <PostJob></PostJob>
-            }
+            element={!isLoggedIn ? <Login></Login> : <PostJob></PostJob>}
           ></Route>
           <Route
-          path="/profile/:userId"
-          element={<ProfileComponent></ProfileComponent>}>
-          </Route>
+            path="/profile/:userId"
+            element={<ProfileComponent></ProfileComponent>}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
   );
 }
 
-const ProfileComponent = ()=> {
-  const {userId} = useParams();
+const ProfileComponent = () => {
+  const { userId } = useParams();
   return (
     <>
-    <Profile userId={userId}></Profile>
+      <Profile userId={userId}></Profile>
     </>
-  )
-}
+  );
+};
 
 export default App;

@@ -10,4 +10,6 @@ public interface UserService {
     public User userDetails(Long userId);
 
     String  editUserDetails(User user);
+
+    Long userIdFromJwt(String jwt);
 }
