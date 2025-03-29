@@ -6,7 +6,7 @@ import axios from "axios";
 
 const HomePage = () => {
   const [jobs, setJobs] = useState([]);
-  const [jobIndex, setJobIndex] = useState();
+  const [jobIndex, setJobIndex] = useState(1);
 
   const retrieveJobs = async () => {
     const jobList = await axios.get("http://localhost:8080/api/job/getjobs");
@@ -48,7 +48,7 @@ const HomePage = () => {
               border : "2px solid",
             }}
           >
-            <JobDescription jobs={jobs} jobIndex={jobIndex}></JobDescription>
+            <JobDescription job={jobs} jobIndex={jobIndex}></JobDescription>
           </div>
         </div>
       </div>

@@ -2,12 +2,17 @@ import { React } from "react";
 import Job from "./Job";
 
 const JobDescription = (props) => {
+
+    console.log("props",props);
+    
+
   return (
     <>
       <div
         style={{ width: "", padding: "10px" }}
         className="flex flex-row justify-between"
       >
+        {props.job[props.jobIndex]}
         <div className="flex flex-col justify-around">
           <h2>Job Title</h2>
           <h3>Company Name</h3>

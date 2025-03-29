@@ -31,7 +31,7 @@ public class Location {
     }
 
     public Location(){
-        
+
     }
     public Location(String locationName) {
         this.locationName = locationName;

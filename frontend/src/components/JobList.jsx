@@ -14,6 +14,7 @@ const JobList = (props) => {
             title={job.jobTitle}
             company={job.companyName}
             location={job.locations}
+            onClick={props.setJobIndex(job.jobId)}
           ></Job>
         ))}
       </div>
