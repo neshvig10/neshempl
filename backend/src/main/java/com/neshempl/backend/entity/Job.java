@@ -1,29 +1,52 @@
 package com.neshempl.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
 
-@Table(name = "job")
 @Entity
+@Table(name = "job")
 public class Job {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "job_id")
     private Long jobId;
+
+    @Column(name = "job_title")
     private String jobTitle;
 
-    private Set<String> skills;
-
-    private Set<String> locations;
-
+    @Column(name = "job_company")
     private String companyName;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "job_skills",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private Set<Skill> skills;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "job_locations",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_id")
+    )
+    private Set<Location> locations;
+
+
+
+    @Column(name = "job_experience")
     private Long experienceRequired;
 
+    @Column(name = "job_salary")
     private Integer salary;
 
+    @Column(name = "job_description")
     private String description;
+
 
     public Long getJobId() {
         return jobId;
@@ -41,19 +64,19 @@ public class Job {
         this.jobTitle = jobTitle;
     }
 
-    public Set<String> getSkills() {
+    public Set<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<String> skills) {
+    public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
 
-    public Set<String> getLocations() {
+    public Set<Location> getLocations() {
         return locations;
     }
 
-    public void setLocations(Set<String> locations) {
+    public void setLocations(Set<Location> locations) {
         this.locations = locations;
     }
 
@@ -89,8 +112,11 @@ public class Job {
         this.description = description;
     }
 
-    public Job(Long jobId, String jobTitle, Set<String> skills, Set<String> locations, String companyName, Long experienceRequired, Integer salary, String description) {
-        this.jobId = jobId;
+    public Job(){
+
+    }
+
+    public Job(String jobTitle, String companyName, Set<Skill> skills, Set<Location> locations,  Long experienceRequired, Integer salary, String description) {
         this.jobTitle = jobTitle;
         this.skills = skills;
         this.locations = locations;

@@ -31,7 +31,7 @@ const Register = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/usermanagement/api/auth/register" +
+        "http://localhost:8080/api/auth/register" +
           "?userName=" +
           userName +
           "&userPhone=" +

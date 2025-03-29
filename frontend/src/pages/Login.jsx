@@ -29,7 +29,7 @@ const Login = () => {
     
     try {
       const response = await axios.post(
-        "http://localhost:8080/usermanagement/api/auth/login?" +
+        "http://localhost:8080/api/auth/login?" +
           "userPhone=" +
           userPhone +
           "&userPassword=" +

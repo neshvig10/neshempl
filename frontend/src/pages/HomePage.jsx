@@ -3,7 +3,7 @@ import {React} from "react";
 const HomePage = ()=> {
     return (
         <>  
-        <div className="flex flex-col" style={{ "padding-top" : "70px"}}>
+        <div className="flex flex-col" style={{ "paddingTop" : "70px"}}>
             <div>Search Bar</div>
             <div className="flex flex-row">
                 <div>List Of Jobs</div>

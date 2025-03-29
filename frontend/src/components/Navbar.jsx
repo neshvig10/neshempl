@@ -11,7 +11,7 @@ const Navbar = () => {
 
   const getUserId = async () => {
     const userid = await axios.get(
-      "http://localhost:8080/usermanagement/api/user/useridfromjwt" +
+      "http://localhost:8080/api/user/useridfromjwt" +
         "?jwt=" +
         localStorage.getItem("jwtToken")
     );

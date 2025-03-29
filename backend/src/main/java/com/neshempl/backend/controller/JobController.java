@@ -1,17 +1,23 @@
 package com.neshempl.backend.controller;
 
 import com.neshempl.backend.dto.JobRequest;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.neshempl.backend.service.JobService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/job")
+@CrossOrigin("*")
 public class JobController {
+
+
+    @Autowired
+    JobService jobService;
 
 
     @PostMapping(value = "/postjob")
     public String postJob(JobRequest jobRequest){
-        return "";
+        return jobService.postJob(jobRequest);
     }
 
 }

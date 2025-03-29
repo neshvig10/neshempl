@@ -6,11 +6,17 @@ public class JobRequest {
 
     private String jobTitle;
 
-    private Set<String> skills;
+    private String skills;
 
-    private Set<String> locations;
+    private String locations;
 
     private String companyName;
+
+    private Long experienceRequired;
+
+    private Integer salary;
+
+    private String description;
 
     public String getJobTitle() {
         return jobTitle;
@@ -20,19 +26,19 @@ public class JobRequest {
         this.jobTitle = jobTitle;
     }
 
-    public Set<String> getSkills() {
+    public String getSkills() {
         return skills;
     }
 
-    public void setSkills(Set<String> skills) {
+    public void setSkills(String skills) {
         this.skills = skills;
     }
 
-    public Set<String> getLocations() {
+    public String getLocations() {
         return locations;
     }
 
-    public void setLocations(Set<String> locations) {
+    public void setLocations(String locations) {
         this.locations = locations;
     }
 
@@ -68,11 +74,6 @@ public class JobRequest {
         this.description = description;
     }
 
-    private Long experienceRequired;
-
-    private Integer salary;
-
-    private String description;
 
 
 }
