@@ -39,7 +39,11 @@ const Navbar = () => {
       >
         <div className="flex flex-row">
           <div>
-            <a className="m-3 text-amber-600 no-underline" href="/">
+            <a
+              style={{ padding: "3px" }}
+              className="m-3 text-amber-600 no-underline"
+              href="/"
+            >
               neshempl
             </a>
           </div>
@@ -65,12 +69,17 @@ const Navbar = () => {
             ) : (
               <div>
                 <a
+                  style={{ padding: "3px" }}
                   className="m-3 text-amber-600 no-underline"
                   href="/uploadresume"
                 >
                   Upload Resume
                 </a>
-                <a className="m-3 text-amber-600 no-underline" href="/postjob">
+                <a
+                  style={{ padding: "3px" }}
+                  className="m-3 text-amber-600 no-underline"
+                  href="/postjob"
+                >
                   Post Job
                 </a>
               </div>
@@ -81,16 +90,25 @@ const Navbar = () => {
         <div className="flex flex-row">
           {!isLoggedIn ? (
             <div>
-              <a className="m-3 text-amber-600 no-underline" href="/login">
+              <a
+                style={{ padding: "3px" }}
+                className="m-3 text-amber-600 no-underline"
+                href="/login"
+              >
                 Login
               </a>
-              <a className="m-3 text-amber-600 no-underline" href="/register">
+              <a
+                style={{ padding: "3px" }}
+                className="m-3 text-amber-600 no-underline"
+                href="/register"
+              >
                 Register
               </a>
             </div>
           ) : (
             <div>
               <a
+                style={{ padding: "3px" }}
                 onClick={logout}
                 className="m-3 text-amber-600 no-underline"
                 href="/"
@@ -98,6 +116,7 @@ const Navbar = () => {
                 Logout
               </a>
               <a
+                style={{ padding: "3px" }}
                 className="m-3 text-amber-600 no-underline"
                 href={`/profile/${userId}`}
               >
