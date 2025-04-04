@@ -44,7 +44,12 @@ const UploadResume = () => {
     <>
       <div
         className="flex flex-col justify-around"
-        style={{ alignSelf: "center", paddingTop: "60px", width: "200px" }}
+        style={{
+          alignSelf: "center",
+          marginLeft: "600px",
+          paddingTop: "100px",
+          width: "200px",
+        }}
       >
         <form
           action=""
@@ -54,22 +59,72 @@ const UploadResume = () => {
         >
           <label htmlFor="">Upload your Resume</label>
           <input
+            style={{
+              marginTop: "10px",
+              height: "30px",
+              borderColor: "#fcd34d",
+              borderRadius: "4px",
+            }}
             id="resumefile"
             // value={uploadFile}
             onChange={(e) => setUploadFile(e.target.files[0])}
             accept="application/pdf"
             type="file"
           />
-          <button type="submit">Upload</button>
+          <button
+            style={{
+              marginTop: "10px",
+              height: "30px",
+              width: "120px",
+              backgroundColor: "#fcd34d",
+              borderColor: "#fcd34d",
+              borderRadius: "4px",
+            }}
+            type="submit"
+          >
+            Upload
+          </button>
         </form>
       </div>
-      <div style={{ width: "400px" }} className="flex flex-col">
-        <label htmlFor="">Choose Resume for job search :</label>
-        <select name="" id="">
-          {resumeFiles.map((resumeFile) => {
-            <option value={resumeFile.name}></option>;
-          })}
-        </select>
+      <div className="flex flex-row">
+        <div
+          style={{ width: "400px", marginTop: "50px", marginLeft: "100px" }}
+          className="flex flex-row"
+        >
+          <div className="flex flex-col">
+            <label htmlFor="">Choose Resume for job search :</label>
+            <select name="" id="">
+              {resumeFiles.map((resumeFile) => {
+                <option value={resumeFile.name}></option>;
+              })}
+            </select>
+          </div>
+
+          <button
+            style={{
+              marginTop: "10px",
+              height: "30px",
+              width: "120px",
+              backgroundColor: "#fcd34d",
+              borderColor: "#fcd34d",
+              borderRadius: "4px",
+            }}
+          >
+            Find Jobs
+          </button>
+        </div>
+        <div
+          style={{
+            backgroundColor: "#FFE9A2FF",
+            width: "100hw",
+            height : "100vh",
+            marginLeft: "100px",
+            marginTop : "30px",
+            paddingLeft : "30px"
+          }}
+        >
+          <h3>Job Results</h3>
+        </div>
       </div>
     </>
   );
