@@ -89,10 +89,10 @@ const UploadResume = () => {
       <div className="flex flex-row">
         <div
           style={{ width: "400px", marginTop: "50px", marginLeft: "100px" }}
-          className="flex flex-row"
+          className="flex flex-row justify-between"
         >
           <div className="flex flex-col">
-            <label htmlFor="">Choose Resume for job search :</label>
+            <label style={{fontSize : "20px", marginBottom : "10px"}} htmlFor="">Choose Resume for job search :</label>
             <select name="" id="">
               {resumeFiles.map((resumeFile) => {
                 <option value={resumeFile.name}></option>;
@@ -102,7 +102,7 @@ const UploadResume = () => {
 
           <button
             style={{
-              marginTop: "10px",
+              marginTop: "20px",
               height: "30px",
               width: "120px",
               backgroundColor: "#fcd34d",
