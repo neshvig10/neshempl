@@ -19,7 +19,7 @@ const Job = (props) => {
           </div>
           <div>
             {props.locations}
-            <p style={{paddingRight : "4px"}}>Experience</p>
+            <p style={{paddingRight : "4px"}}>{props.experience} yrs</p>
           </div>
         </div>
       </div>

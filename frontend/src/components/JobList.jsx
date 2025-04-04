@@ -5,7 +5,7 @@ const JobList = (props) => {
   return (
     <>
       <div
-        style={{width: "650px"}}
+        style={{overflow:"auto",height : "600px",width: "100%"}}
       >
         {" "}
         {props.jobs.map((job) => (
@@ -14,6 +14,7 @@ const JobList = (props) => {
             title={job.jobTitle}
             company={job.companyName}
             location={job.locations}
+            experience={job.experienceRequired}
             onClick={props.setJobIndex(job.jobId)}
           ></Job>
         ))}

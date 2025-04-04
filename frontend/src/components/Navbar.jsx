@@ -15,8 +15,9 @@ const Navbar = () => {
         "?jwt=" +
         localStorage.getItem("jwtToken")
     );
-    console.log(userid);
+    console.log("id",userid);
     setUserId(userid.data);
+    localStorage.setItem("userId",userid.data);
   };
 
   useEffect(() => {
