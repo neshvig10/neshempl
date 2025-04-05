@@ -4,9 +4,11 @@ package com.neshempl.backend.service.impl;
 import com.neshempl.backend.entity.Resume;
 import com.neshempl.backend.repository.ResumeRepository;
 import com.neshempl.backend.service.ResumeService;
+import org.springframework.core.io.Resource;
 import org.bouncycastle.util.StoreException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,7 +69,16 @@ public class ResumeServiceImplement implements ResumeService {
         Resume resume = new Resume();
         resume.setResumeFilePath(fileDestination+resumeFile.getOriginalFilename()+timeStamp);
         resume.setResumeUserId(userId);
+        resume.setResumeName(resumeFile.getOriginalFilename());
         resumeRepository.save(resume);
         return "Resume uploaded successfully";
+    }
+
+    @Override
+    public Resource getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
+        Resume resume = resumeRepository.getReferenceById(resumeId);
+        Path path = Paths.get(resume.getResumeFilePath());
+        Resource resource = new UrlResource(path.toUri());
+        return resource;
     }
 }

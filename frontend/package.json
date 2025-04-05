@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.0",
     "@tailwindcss/vite": "^4.0.15",
     "autoprefixer": "^10.4.21",
     "axios": "^1.8.4",
+    "pdf-viewer-reactjs": "^2.2.3",
+    "pdfjs-dist": "^5.1.91",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-pdf": "^9.2.1",
+    "react-pdf-viewer": "^0.1.0",
     "react-router-dom": "^7.4.0"
   },
   "devDependencies": {

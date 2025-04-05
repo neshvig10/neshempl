@@ -17,6 +17,9 @@ public class Resume {
     @Column(name = "user_id")
     private Long resumeUserId;
 
+    @Column(name = "resume_name")
+    private String resumeName;
+
     @Column(name = "resume_file_path")
     private String resumeFilePath;
 
@@ -35,6 +38,14 @@ public class Resume {
 
     public Long getResumeUserId() {
         return resumeUserId;
+    }
+
+    public String getResumeName() {
+        return resumeName;
+    }
+
+    public void setResumeName(String resumeName) {
+        this.resumeName = resumeName;
     }
 
     public void setResumeUserId(Long resumeUserId) {
