@@ -5,6 +5,7 @@ import com.neshempl.backend.repository.ResumeRepository;
 import com.neshempl.backend.service.ResumeService;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +30,7 @@ public class ResumeController {
     }
 
     @GetMapping(value = "/getresume")
-    public Resource getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
+    public ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
         return resumeService.getResume(resumeId);
     }
 

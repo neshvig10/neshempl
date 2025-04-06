@@ -1,15 +1,21 @@
 import axios from "axios";
 import { React, useEffect, useState } from "react";
-import { Document } from "react-pdf";
 import { useNavigate } from "react-router-dom";
-import ResumeViewer from "../components/ResumeViewer";
 
 const UploadResume = () => {
   const [uploadFile, setUploadFile] = useState();
   const [resumeFiles, setResumeFiles] = useState([]);
   const [selectedResumeId, setselectedResumeId] = useState(0);
-  const [pdfUrl,setPdfUrl] = useState();
+  const [pdfUrl, setPdfUrl] = useState();
   const navigate = useNavigate();
+
+  const findJobsForResume = async () => {
+    const response = await axios.post(
+      "http://localhost:8000/api/resume/analyze?resumeId=" + selectedResumeId
+    );
+    console.log(response.data);
+    
+  };
 
   const getResume = async () => {
     const selectedResumeFile = await axios.get(
@@ -18,7 +24,9 @@ const UploadResume = () => {
         responseType: "blob", // <- important to get the binary data!
       }
     );
-    const file = new Blob([selectedResumeFile.data], { type: 'application/pdf' });
+    const file = new Blob([selectedResumeFile.data], {
+      type: "application/pdf",
+    });
     const fileURL = URL.createObjectURL(file);
     setPdfUrl(fileURL);
     console.log(selectedResumeFile);
@@ -109,48 +117,63 @@ const UploadResume = () => {
           </button>
         </form>
       </div>
-      <div className="flex flex-row">
-        <div
-          style={{ width: "400px", marginTop: "50px", marginLeft: "100px" }}
-          className="flex flex-col justify-between"
-        >
-          <div className="flex flex-row">
-            <div className="flex flex-col">
-              <label
-                style={{ fontSize: "20px", marginBottom: "10px" }}
-                htmlFor=""
-              >
-                Choose Resume for job search :
-              </label>
-              <select
-                name=""
-                id=""
-                onChange={(e) => {
-                  setselectedResumeId(e.target.value);
-                }}
-              >
-                {resumeFiles.map((resumeFile) => (
-                  <option key={resumeFile.resumeId} value={resumeFile.resumeId}>
-                    {resumeFile.resumeName}
-                  </option>
-                ))}
-              </select>
-              <button
-                style={{
-                  marginTop: "20px",
-                  height: "30px",
-                  width: "120px",
-                  backgroundColor: "#fcd34d",
-                  borderColor: "#fcd34d",
-                  borderRadius: "4px",
-                }}
-              >
-                Find Jobs
-              </button>
-            </div>
 
+      <div className="flex flex-row">
+        <div style={{ marginLeft: "50px" }} className="flex flex-col">
+          <div>
+            <div className="flex flex-row">
+              <div className="flex flex-col">
+                <label
+                  style={{ fontSize: "20px", marginBottom: "10px" }}
+                  htmlFor=""
+                >
+                  Choose Resume for job search :
+                </label>
+                <select
+                  name=""
+                  id=""
+                  onChange={(e) => {
+                    setselectedResumeId(e.target.value);
+                  }}
+                >
+                  {resumeFiles.map((resumeFile) => (
+                    <option
+                      key={resumeFile.resumeId}
+                      value={resumeFile.resumeId}
+                    >
+                      {resumeFile.resumeName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <button
+                  onClick={getResume}
+                  style={{
+                    marginTop: "20px",
+                    height: "30px",
+                    width: "120px",
+                    backgroundColor: "#fcd34d",
+                    borderColor: "#fcd34d",
+                    borderRadius: "4px",
+                  }}
+                >
+                  Display Resume
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <iframe
+              src={pdfUrl}
+              title="Resume Preview"
+              width="100%"
+              height="600px"
+              style={{ border: "none" }}
+            />
+          </div>
+          <div style={{ paddingLeft: "100px", paddingBottom: "20px" }}>
             <button
-              onClick={getResume}
               style={{
                 marginTop: "20px",
                 height: "30px",
@@ -159,25 +182,22 @@ const UploadResume = () => {
                 borderColor: "#fcd34d",
                 borderRadius: "4px",
               }}
+              onClick={findJobsForResume}
             >
-              Display Resume
+              Find Jobs
             </button>
           </div>
-
-          <div style={{ borderColor: "#fcd34d" }}>
-            <ResumeViewer pdfUrl={pdfUrl}></ResumeViewer>
-            hello
-            {selectedResumeId}
-          </div>
         </div>
+
         <div
           style={{
             backgroundColor: "#FFE9A2FF",
-            width: "100hw",
-            height: "100vh",
+            height: "600px",
+            width: "800px",
             marginLeft: "100px",
             marginTop: "30px",
             paddingLeft: "30px",
+            overflow: "auto",
           }}
         >
           <h3>Job Results</h3>

@@ -2,6 +2,7 @@ package com.neshempl.backend.service;
 import com.neshempl.backend.entity.Resume;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,5 +19,5 @@ public interface ResumeService {
 
     String postResume(MultipartFile resumeFile,Long userId);
 
-    Resource getResume(Long resumeId) throws MalformedURLException, FileNotFoundException;
+    ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException;
 }

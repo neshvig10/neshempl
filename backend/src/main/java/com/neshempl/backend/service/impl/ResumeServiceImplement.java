@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,10 +78,13 @@ public class ResumeServiceImplement implements ResumeService {
     }
 
     @Override
-    public Resource getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
+    public ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
         Resume resume = resumeRepository.getReferenceById(resumeId);
         Path path = Paths.get(resume.getResumeFilePath());
         Resource resource = new UrlResource(path.toUri());
-        return resource;
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION)
+                .body(resource);
     }
 }
