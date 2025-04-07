@@ -20,7 +20,7 @@ public interface ResumeService {
 
     String postResume(MultipartFile resumeFile,Long userId);
 
-    ResponseEntity<Resource> getResume(Long resumeId) throws IOException;
+    ResponseEntity<Resource> getResume(Long resumeId) throws IOException, InterruptedException;
 
-    String analyzeResume(Long resumeId) throws IOException;
+    String analyzeResume(Long resumeId) throws IOException, InterruptedException;
 }

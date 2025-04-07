@@ -30,7 +30,7 @@ public class ResumeController {
     }
 
     @GetMapping(value = "/getresume")
-    public ResponseEntity<Resource> getResume(Long resumeId) throws IOException {
+    public ResponseEntity<Resource> getResume(Long resumeId) throws IOException, InterruptedException {
         return resumeService.getResume(resumeId);
     }
 
