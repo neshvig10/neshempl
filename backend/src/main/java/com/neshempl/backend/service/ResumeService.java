@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -19,5 +20,7 @@ public interface ResumeService {
 
     String postResume(MultipartFile resumeFile,Long userId);
 
-    ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException;
+    ResponseEntity<Resource> getResume(Long resumeId) throws IOException;
+
+    String analyzeResume(Long resumeId) throws IOException;
 }

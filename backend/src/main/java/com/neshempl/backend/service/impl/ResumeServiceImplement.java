@@ -4,6 +4,9 @@ package com.neshempl.backend.service.impl;
 import com.neshempl.backend.entity.Resume;
 import com.neshempl.backend.repository.ResumeRepository;
 import com.neshempl.backend.service.ResumeService;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.core.io.Resource;
 import org.bouncycastle.util.StoreException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -78,7 +78,7 @@ public class ResumeServiceImplement implements ResumeService {
     }
 
     @Override
-    public ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
+    public ResponseEntity<Resource> getResume(Long resumeId) throws IOException {
         Resume resume = resumeRepository.getReferenceById(resumeId);
         Path path = Paths.get(resume.getResumeFilePath());
         Resource resource = new UrlResource(path.toUri());
@@ -87,4 +87,20 @@ public class ResumeServiceImplement implements ResumeService {
                 .header(HttpHeaders.CONTENT_DISPOSITION)
                 .body(resource);
     }
+
+    @Override
+    public String analyzeResume(Long resumeId) throws IOException {
+        Resume resume = resumeRepository.getReferenceById(resumeId);
+        File pdfFile = new File(resume.getResumeFilePath());
+        PDDocument pdDocument = Loader.loadPDF(pdfFile);
+        PDFTextStripper pdfTextStripper = new PDFTextStripper();
+        String pdfText = pdfTextStripper.getText(pdDocument);
+
+        pdDocument.close();
+        // printing the contents of resume
+        System.out.println(pdfText);
+        return null;
+    }
+
+
 }

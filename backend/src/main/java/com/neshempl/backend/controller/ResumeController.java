@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/api/resume")
 @CrossOrigin("*")
+@RequestMapping("/api/resume")
 public class ResumeController {
 
 
@@ -30,7 +30,7 @@ public class ResumeController {
     }
 
     @GetMapping(value = "/getresume")
-    public ResponseEntity<Resource> getResume(Long resumeId) throws MalformedURLException, FileNotFoundException {
+    public ResponseEntity<Resource> getResume(Long resumeId) throws IOException {
         return resumeService.getResume(resumeId);
     }
 
@@ -41,5 +41,6 @@ public class ResumeController {
         return resumeService.postResume(resumeFile,userId);
     }
 
-    
+
 }
+
