@@ -7,14 +7,18 @@ const UploadResume = () => {
   const [resumeFiles, setResumeFiles] = useState([]);
   const [selectedResumeId, setselectedResumeId] = useState(0);
   const [pdfUrl, setPdfUrl] = useState();
+  const [jobsFound, setJobsFound] = useState([]);
   const navigate = useNavigate();
 
   const findJobsForResume = async () => {
     const response = await axios.post(
-      "http://localhost:8000/api/resume/analyze?resumeId=" + selectedResumeId
+      "http://localhost:8080/api/resume/analyzeresume?resumeId=" +
+        selectedResumeId
     );
-    console.log(response.data);
-    
+    console.log(response.data.data);
+    setJobsFound(response.data.data);
+
+    //setJobsFound(response.data);
   };
 
   const getResume = async () => {
@@ -119,7 +123,7 @@ const UploadResume = () => {
       </div>
 
       <div className="flex flex-row">
-        <div style={{ marginLeft: "50px" }} className="flex flex-col">
+        <div style={{ marginLeft: "150px" }} className="flex flex-col">
           <div>
             <div className="flex flex-row">
               <div className="flex flex-col">
@@ -192,15 +196,54 @@ const UploadResume = () => {
         <div
           style={{
             backgroundColor: "#FFE9A2FF",
-            height: "600px",
+            height: "650px",
             width: "800px",
-            marginLeft: "100px",
+            marginLeft: "150px",
             marginTop: "30px",
             paddingLeft: "30px",
             overflow: "auto",
           }}
         >
           <h3>Job Results</h3>
+          {/* {resumeFiles.map((resumeFile) => (
+            <option key={resumeFile.resumeId} value={resumeFile.resumeId}>
+              {resumeFile.resumeName}
+            </option>
+          ))} */}
+          {jobsFound &&
+            jobsFound.map((jobFound) => (
+              <div
+                style={{
+                  border: "solid",
+                  borderColor: "#9B7700FF",
+                  backgroundColor: "#FFF0BEFF",
+                  padding: "5px",
+                }}
+                key={jobFound.id}
+              >
+                <div className="flex flex-row justify-between">
+                  <div><a
+                  style={{ textDecoration: "none", fontColor: "#3B2E00FF" }}
+                  target="_blank"
+                  href={jobFound.url}
+                >
+                  <h3>{jobFound.title}</h3>
+                </a>
+                <a
+                  style={{ textDecoration: "none", fontColor: "#3B2E00FF" }}
+                  target="_blank"
+                  href={jobFound.company.url}
+                >
+                  <p>Company : {jobFound.company.name}</p>
+                </a>
+                <p>Location : {jobFound.location}</p></div>
+                  <div>
+                    <img style={{marginTop : "20px",height : "50px"}} src={jobFound.company.logo} alt="" />
+                  </div>
+                </div>
+                
+              </div>
+            ))}
         </div>
       </div>
     </>

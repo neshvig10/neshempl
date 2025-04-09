@@ -3,6 +3,7 @@ package com.neshempl.backend.controller;
 import com.neshempl.backend.entity.Resume;
 import com.neshempl.backend.repository.ResumeRepository;
 import com.neshempl.backend.service.ResumeService;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.core.io.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,11 @@ public class ResumeController {
     public String uploadResume(@RequestParam("file") MultipartFile resumeFile,Long userId){
         System.out.println("file"+resumeFile.getOriginalFilename()+"userId"+userId);
         return resumeService.postResume(resumeFile,userId);
+    }
+
+    @PostMapping(value = "/analyzeresume")
+    public String analyzeresume(Long resumeId) throws IOException, InterruptedException, ParseException {
+        return resumeService.analyzeResume(resumeId);
     }
 
 

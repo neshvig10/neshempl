@@ -1,5 +1,6 @@
 package com.neshempl.backend.service;
 import com.neshempl.backend.entity.Resume;
+import org.apache.tomcat.util.json.ParseException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +23,9 @@ public interface ResumeService {
 
     ResponseEntity<Resource> getResume(Long resumeId) throws IOException, InterruptedException;
 
-    String analyzeResume(Long resumeId) throws IOException, InterruptedException;
+    String callRemotiveApi(String category, String title) throws IOException, InterruptedException;
+
+    String callRapidLinkedinAPI(String keywords) throws IOException, InterruptedException;
+
+    String analyzeResume(Long resumeId) throws IOException, InterruptedException, ParseException;
 }
