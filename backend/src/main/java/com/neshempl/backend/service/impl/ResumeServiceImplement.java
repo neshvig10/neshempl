@@ -2,8 +2,13 @@ package com.neshempl.backend.service.impl;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentResponse;
+import com.neshempl.backend.entity.Job;
 import com.neshempl.backend.entity.Resume;
+import com.neshempl.backend.repository.JobRepository;
 import com.neshempl.backend.repository.ResumeRepository;
+import com.neshempl.backend.service.JobService;
 import com.neshempl.backend.service.ResumeService;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -40,6 +45,9 @@ public class ResumeServiceImplement implements ResumeService {
 
     @Autowired
     ResumeRepository resumeRepository;
+
+    @Autowired
+    JobService jobService;
 
 
     @Override
@@ -87,74 +95,95 @@ public class ResumeServiceImplement implements ResumeService {
                 .body(resource);
     }
 
-    @Value("${AI_API_KEY}")
-    private String API_KEY;
+    public String deleteResume(Long resumeId){
+        Resume resume = resumeRepository.getReferenceById(resumeId);
+        File resumeFile = new File(resume.getResumeFilePath());
+        if (resumeFile.delete()){
+            resumeRepository.deleteById(resumeId);
+            return "Resume Deleted Successfully !";
+        }
+        return "Try again";
+    }
 
-    private static final String BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
-    private static final String baseContent = "This is the content of a user's resume. We have to search jobs for this user. Give the keywords for job search separated by commas. { \"keywords\" : job-related-keywords-separated-by-commas } \n";
+    @Value(("${GEMINI_API_KEY}"))
+    public String GeminiAPIKey;
 
-    public String callAIAPI(String content) throws IOException, InterruptedException, ParseException {
 
-        String fullContent = baseContent + content;
-        fullContent=fullContent.replace("\"","\\\"");
-        fullContent = "\"\"\"" + fullContent + "\"\"\"";
-        System.out.println(fullContent);
+    public List<String> callAIAPI(String content) throws IOException, InterruptedException, ParseException {
 
-        Map<String, Object> message = Map.of(
-                "contents", List.of(
-                        Map.of(
-                                "parts",List.of(
-                                        Map.of(
-                                                "text",fullContent
-                                        )
-                                )
-                        )
-                )
-        );
+        List<Job> jobList = jobService.listJobs();
 
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writeValueAsString(message);
+        Set <String> jobTitles = new HashSet<>();
 
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create(BASE_URL+API_KEY))
-                .header("Content-Type","application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+        for (Job job : jobList){
+            if (!jobTitles.contains(job.getJobTitle())){
+                jobTitles.add(job.getJobTitle());
+            }
+        }
 
-        var client = HttpClient.newHttpClient();
 
-        var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
+        Client client = Client.builder().apiKey(GeminiAPIKey).build();
+
+        String baseContent0 = "Given the resume and list of jobTitles, give the list of job titles that can match this resume(only job titles separated by commas , no other text)" +
+                "Resume Content : " + content +
+                "Job Titles list : " + jobTitles.toString();
+
+        GenerateContentResponse listOfJobs =
+                client.models.generateContent("gemini-2.0-flash-001",baseContent0, null);
+        System.out.println(listOfJobs.text());
+        List<String> matchingJobTitlesBeforeTrim = List.of(Objects.requireNonNull(listOfJobs.text()).split(", "));
+        List<String> matchingJobTitles = new ArrayList<>();
+        for (String matchingjobTitle : matchingJobTitlesBeforeTrim){
+            matchingJobTitles.add(matchingjobTitle.trim());
+        }
+        System.out.println(matchingJobTitles);
+
+        List<String> jobMatchAIOutput = new ArrayList<>();
+
+        for (Job job : jobList) {
+            if (matchingJobTitles.contains(job.getJobTitle())) {
+                String jobEntry = (
+                        "jobId : " + job.getJobId() +
+                                ",jobTitle : " + job.getJobTitle() +
+                                ",jobDescription : " + job.getDescription() +
+                                ",jobExperienceRequired : " + job.getExperienceRequired().toString()
+                                + "\n"
+                );
+                String baseContent =
+                        "Resume Content : " + content +
+                                "Job Details : " + jobEntry +
+                                """ 
+                                        Given the user resume and job details, match each of them with a score in range 1 to 10
+                                        Give the output as
+                                        {
+                                            matchScore : how well the job and resume matches
+                                            reasonForScore : reason for the score given
+                                        }
+                                        Return job post only if the score is above 5.
+                                                            
+                                        """;
+
+
+                GenerateContentResponse response =
+                        client.models.generateContent("gemini-2.0-flash-001", baseContent, null);
+                // Gets the text string from the response by the quick accessor method `text()`.
+                System.out.println("Unary response: " + response.text());
+
+                String jobMatchScore = response.text().replace("```", "").replace("json", "");
+                JSONObject jsonObject = new JSONObject(jobMatchScore);
+                jsonObject.append("jobId", job.getJobId());
+                jsonObject.append("jobTitle", job.getJobTitle());
+                jsonObject.append("jobDescription", job.getDescription());
+                jsonObject.append("jobExperienceRequired", job.getExperienceRequired());
+                jobMatchAIOutput.add(jsonObject.toString());
+            }
+
+        }
+        return jobMatchAIOutput;
+
 
     }
 
-    @Override
-    public String callRemotiveApi(String category, String title) throws IOException, InterruptedException {
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://remotive.io/api/remote-jobs?"+"category="+category.replace(" ","-")+"&search="+title.replace(" ","-")))
-                .build();
-        var client = HttpClient.newHttpClient();
-        var response = client.send(request,HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
-
-    @Value("${RAPID_LINKEDIN_API_KEY}")
-    private String rapidLinkedinAPIKey;
-
-    @Override
-    public String callRapidLinkedinAPI(String keywords) throws IOException, InterruptedException {
-        keywords=keywords.replace(",","%20").replace(" ","");
-        System.out.println(keywords);
-        var request = HttpRequest.newBuilder()
-                .uri(URI.create("https://linkedin-api8.p.rapidapi.com/search-jobs?"+"keywords="+keywords+"&locationId=102713980&datePosted=anyTime&sort=mostRelevant"))
-                .header("x-rapidapi-host","linkedin-api8.p.rapidapi.com")
-                .header("x-rapidapi-key",rapidLinkedinAPIKey)
-                .build();
-
-        var client = HttpClient.newHttpClient();
-        var response = client.send(request,HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
 
     @Override
     public String analyzeResume(Long resumeId) throws IOException, InterruptedException, ParseException {
@@ -165,23 +194,9 @@ public class ResumeServiceImplement implements ResumeService {
         String pdfText = pdfTextStripper.getText(pdDocument);
         System.out.println(pdfText);
         pdDocument.close();
-        String AIresponse = callAIAPI(pdfText);
-        JSONParser parser = new JSONParser(AIresponse);
-        LinkedHashMap jsonMap = (LinkedHashMap) parser.parse();
-        ArrayList candidatesList = (ArrayList) jsonMap.get("candidates");
-        LinkedHashMap candidatesListFirst = (LinkedHashMap) candidatesList.getFirst();
-        LinkedHashMap content = (LinkedHashMap) candidatesListFirst.get("content");
-        ArrayList parts = (ArrayList) content.get("parts");
-        LinkedHashMap jsonMapText = (LinkedHashMap)parts.get(0);
-        String jsonText = (String) jsonMapText.get("text");
-        Integer sizeOfJsonText = jsonText.length();
-        String finalJsonText = jsonText.substring(9,sizeOfJsonText-5).replace("\\n","").replace("\\","");
-        System.out.println(finalJsonText);
-        JSONObject jsonObject1 = new JSONObject(finalJsonText);
-        String jobSearchOutput = callRapidLinkedinAPI(jsonObject1.getString("keywords"));
-        // printing the contents of resume
-        // System.out.println("AIResponse \n"+ AIresponse);
-        return jobSearchOutput;
+        List<String> AIresponse = callAIAPI(pdfText);
+        System.out.println("AIResponse \n"+ AIresponse);
+        return AIresponse.toString();
     }
 
 

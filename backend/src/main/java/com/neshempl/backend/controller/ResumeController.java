@@ -42,6 +42,11 @@ public class ResumeController {
         return resumeService.postResume(resumeFile,userId);
     }
 
+    @DeleteMapping(value = "/deleteresume")
+    public String deleteResume(Long resumeId){
+        return resumeService.deleteResume(resumeId);
+    }
+
     @PostMapping(value = "/analyzeresume")
     public String analyzeresume(Long resumeId) throws IOException, InterruptedException, ParseException {
         return resumeService.analyzeResume(resumeId);

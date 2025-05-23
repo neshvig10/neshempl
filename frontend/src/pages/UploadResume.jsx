@@ -15,10 +15,17 @@ const UploadResume = () => {
       "http://localhost:8080/api/resume/analyzeresume?resumeId=" +
         selectedResumeId
     );
-    console.log(response.data.data);
-    setJobsFound(response.data.data);
+    console.log(response.data);
+    setJobsFound(response.data);
+  };
 
-    //setJobsFound(response.data);
+  const deleteResume = async () => {
+    const response = await axios.delete(
+      "http://localhost:8080/api/resume/deleteresume?resumeId=" +
+        selectedResumeId
+    );
+    console.log(response.data);
+    window.location.reload();
   };
 
   const getResume = async () => {
@@ -176,7 +183,23 @@ const UploadResume = () => {
               style={{ border: "none" }}
             />
           </div>
-          <div style={{ paddingLeft: "100px", paddingBottom: "20px" }}>
+          <div
+            className="flex flex-row"
+            style={{ paddingLeft: "100px", paddingBottom: "20px" }}
+          >
+            <button
+              style={{
+                marginTop: "20px",
+                height: "30px",
+                width: "120px",
+                backgroundColor: "#fcd34d",
+                borderColor: "#fcd34d",
+                borderRadius: "4px",
+              }}
+              onClick={deleteResume}
+            >
+              Delete Resume
+            </button>
             <button
               style={{
                 marginTop: "20px",
@@ -204,46 +227,34 @@ const UploadResume = () => {
             overflow: "auto",
           }}
         >
+          <div></div>
           <h3>Job Results</h3>
-          {/* {resumeFiles.map((resumeFile) => (
-            <option key={resumeFile.resumeId} value={resumeFile.resumeId}>
-              {resumeFile.resumeName}
-            </option>
-          ))} */}
-          {jobsFound &&
-            jobsFound.map((jobFound) => (
-              <div
-                style={{
-                  border: "solid",
-                  borderColor: "#9B7700FF",
-                  backgroundColor: "#FFF0BEFF",
-                  padding: "5px",
-                }}
-                key={jobFound.id}
-              >
-                <div className="flex flex-row justify-between">
-                  <div><a
-                  style={{ textDecoration: "none", fontColor: "#3B2E00FF" }}
-                  target="_blank"
-                  href={jobFound.url}
+          {jobsFound ? (
+            jobsFound.map((job) => (
+              <div key={job.jobId[0]} style={{backgroundColor : "#FFE89DFF",borderStyle : "solid", margin : "4px", padding : "4px",borderWidth: "2px"}}>
+                <h3>{job.jobTitle[0]}</h3>
+                <h4>Description : {job.jobDescription[0]}</h4>
+                <p>Experience Required : {job.jobExperienceRequired[0]} years</p>
+                <p>Matching Score : {job.matchScore}</p>
+                <p>Match Reason : {job.reasonForScore}</p>
+                <button
+                  onClick={getResume}
+                  style={{
+                    marginTop: "20px",
+                    height: "30px",
+                    width: "120px",
+                    backgroundColor: "#fcd34d",
+                    borderColor: "#fcd34d",
+                    borderRadius: "4px",
+                  }}
                 >
-                  <h3>{jobFound.title}</h3>
-                </a>
-                <a
-                  style={{ textDecoration: "none", fontColor: "#3B2E00FF" }}
-                  target="_blank"
-                  href={jobFound.company.url}
-                >
-                  <p>Company : {jobFound.company.name}</p>
-                </a>
-                <p>Location : {jobFound.location}</p></div>
-                  <div>
-                    <img style={{marginTop : "20px",height : "50px"}} src={jobFound.company.logo} alt="" />
-                  </div>
-                </div>
-                
+                  Apply Now
+                </button>
               </div>
-            ))}
+            ))
+          ) : (
+            <div>Please try again</div>
+          )}
         </div>
       </div>
     </>
