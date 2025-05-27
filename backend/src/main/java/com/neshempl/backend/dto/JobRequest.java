@@ -18,6 +18,10 @@ public class JobRequest {
 
     private String description;
 
+    private Long postedUserId;
+
+
+
     public String getJobTitle() {
         return jobTitle;
     }
@@ -72,6 +76,14 @@ public class JobRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getPostedUserId() {
+        return postedUserId;
+    }
+
+    public void setPostedUserId(Long postedUserId) {
+        this.postedUserId = postedUserId;
     }
 
 

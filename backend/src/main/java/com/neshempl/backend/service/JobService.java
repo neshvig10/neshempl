@@ -13,4 +13,10 @@ public interface JobService {
     String postJob(JobRequest jobRequest);
 
     List<Job> listJobs();
+
+    List<Long> listJobsByUserId(Long userId);
+
+    Job getJobById(Long jobId);
+
+    void deleteJobPosting(Long jobId);
 }

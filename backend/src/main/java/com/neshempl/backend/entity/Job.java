@@ -1,7 +1,10 @@
 package com.neshempl.backend.entity;
 
+import com.neshempl.backend.service.JobService;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,32 +23,23 @@ public class Job {
     @Column(name = "job_company")
     private String companyName;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "job_skills",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
-    private Set<Skill> skills;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "job_locations",
-            joinColumns = @JoinColumn(name = "job_id"),
-            inverseJoinColumns = @JoinColumn(name = "location_id")
-    )
-    private Set<Location> locations;
-
-
-
     @Column(name = "job_experience")
     private Long experienceRequired;
 
     @Column(name = "job_salary")
     private Integer salary;
 
-    @Column(name = "job_description")
+    @Column(name = "job_description",length=10485760)
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobSkill> jobSkills = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<JobLocation> jobLocations = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private JobPostUser jobPostUser;
 
 
     public Long getJobId() {
@@ -64,20 +58,28 @@ public class Job {
         this.jobTitle = jobTitle;
     }
 
-    public Set<Skill> getSkills() {
-        return skills;
+    public List<JobSkill> getJobSkills() {
+        return jobSkills;
     }
 
-    public void setSkills(Set<Skill> skills) {
-        this.skills = skills;
+    public void setJobSkills(List<JobSkill> jobSkills) {
+        this.jobSkills = jobSkills;
     }
 
-    public Set<Location> getLocations() {
-        return locations;
+    public List<JobLocation> getJobLocations() {
+        return jobLocations;
     }
 
-    public void setLocations(Set<Location> locations) {
-        this.locations = locations;
+    public void setJobLocations(List<JobLocation> jobLocations) {
+        this.jobLocations = jobLocations;
+    }
+
+    public JobPostUser getJobPostUser() {
+        return jobPostUser;
+    }
+
+    public void setJobPostUsers(JobPostUser jobPostUser) {
+        this.jobPostUser = jobPostUser;
     }
 
     public String getCompanyName() {
@@ -112,17 +114,12 @@ public class Job {
         this.description = description;
     }
 
+
+
     public Job(){
 
     }
 
-    public Job(String jobTitle, String companyName, Set<Skill> skills, Set<Location> locations,  Long experienceRequired, Integer salary, String description) {
-        this.jobTitle = jobTitle;
-        this.skills = skills;
-        this.locations = locations;
-        this.companyName = companyName;
-        this.experienceRequired = experienceRequired;
-        this.salary = salary;
-        this.description = description;
-    }
+
+
 }
