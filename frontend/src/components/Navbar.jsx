@@ -10,14 +10,16 @@ const Navbar = () => {
   const [userId, setUserId] = useState();
 
   const getUserId = async () => {
-    const userid = await axios.get(
-      "http://localhost:8080/api/user/useridfromjwt" +
-        "?jwt=" +
-        localStorage.getItem("jwtToken")
-    );
-    console.log("id",userid);
-    setUserId(userid.data);
-    localStorage.setItem("userId",userid.data);
+    if (isLoggedIn) {
+      const userid = await axios.get(
+        "http://localhost:8080/api/user/useridfromjwt" +
+          "?jwt=" +
+          localStorage.getItem("jwtToken")
+      );
+      console.log("id", userid);
+      setUserId(userid.data);
+      localStorage.setItem("userId", userid.data);
+    }
   };
 
   useEffect(() => {

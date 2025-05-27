@@ -1,7 +1,7 @@
 import { React} from "react";
 import Job from "./Job";
 
-const JobList = (props) => {
+const JobListEmployee = (props) => {
   return (
     <>
       <div
@@ -23,4 +23,4 @@ const JobList = (props) => {
   );
 };
 
-export default JobList;
+export default JobListEmployee;

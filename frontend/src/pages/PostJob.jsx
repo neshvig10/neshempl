@@ -32,9 +32,10 @@ const PostJob = () => {
       + "&experienceRequired=" + experience
       + "&salary=" + jobSalary
       + "&description=" + jobDescription
+      + "&postedUserId=" + localStorage.getItem("userId")
     );
     console.log(response.data);
-    navigate("/jobsposted")
+    navigate("/")
     
   };
 
@@ -135,7 +136,7 @@ const PostJob = () => {
                   id="salarytype"
                 >
                   <option value="LPA">LPA</option>
-                  <option value="PM">P.M.</option>
+                  <option value="KPM">K.P.M.</option>
                 </select>
               </div>
             </div>

@@ -1,6 +1,14 @@
+import axios from "axios";
 import { React } from "react";
 
 const Job = (props) => {
+
+  const deleteJob = async()=> {
+    const response = await axios.delete("http://localhost:8080/api/job/deletejob?jobId="+props.jobId);
+    console.log(response);
+    window.location.reload(); 
+  }
+
   return (
     <>
       <div
@@ -20,6 +28,7 @@ const Job = (props) => {
           <div>
             {props.locations}
             <p style={{paddingRight : "4px"}}>Exp Reqd. {props.experience} yrs</p>
+            {props.userRole === "EMPLOYER" ? <img src="src/assets/delete.png" onClick={deleteJob} style={{ width : "20px",marginTop : "10px", marginLeft : "80px",paddingRight : "0px"}}></img> : <></> }
           </div>
         </div>
       </div>

@@ -46,6 +46,13 @@ const Login = () => {
         localStorage.setItem("jwtToken",response.data);
         localStorage.setItem("isLoggedIn",true);
         localStorage.setItem("userRoleAuth",userRole);
+        const userid = await axios.get(
+          "http://localhost:8080/api/user/useridfromjwt" +
+            "?jwt=" +
+            localStorage.getItem("jwtToken")
+        );
+        console.log("id", userid);
+        localStorage.setItem("userId", userid.data);
         login(response.data);
         navigate("/");
         window.location.reload(); 

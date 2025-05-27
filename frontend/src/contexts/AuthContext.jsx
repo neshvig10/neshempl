@@ -14,6 +14,8 @@ export const AuthProvider = ({children})=> {
     const logout =()=>{
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userRoleAuth");
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("userId");
     }
 
 
