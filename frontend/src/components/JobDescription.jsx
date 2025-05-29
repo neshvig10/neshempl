@@ -1,36 +1,51 @@
-import { React } from "react";
+import React, { useContext } from "react";
 import Job from "./Job";
+import { DescriptionContext } from "../contexts/DescriptionContext";
+import axios from "axios";
 
 const JobDescription = (props) => {
+  console.log("jobDescription", props);
+  const { jobIndex } = useContext(DescriptionContext);
 
-    console.log("props",props);
+  if (props.job) console.log("jobindexfromcontext", jobIndex);
+
+  const applyToJob = async (jobId) => {
+    // const response = await axios.post("http://localhost:8080/api/job/applytojob");
+    // console.log(response.data);
     
+  };
 
   return (
     <>
-      <div
-        style={{ width: "", padding: "10px" }}
-        className="flex flex-row justify-between"
-      >
-        {props.job[props.jobIndex]}
-        <div className="flex flex-col justify-around">
-          <h2>Job Title</h2>
-          <h3>Company Name</h3>
-          <p>
-            Job JobDescription Lorem ipsum dolor sit amet, consectetur
-            adipisicing elit. Laudantium vitae rem velit, distinctio expedita
-            sit iure, minima cupiditate consequatur debitis aperiam dolores.
-            Voluptatum omnis voluptatibus nobis in mollitia, consequatur
-            nostrum!
-          </p>
-          <button>Apply Now</button>
-        </div>
+      {props.job.length ? (
+        <div
+          style={{ width: "", padding: "10px" }}
+          className="flex flex-row justify-between"
+        >
+          {/* {props.job[jobIndex]} */}
+          <div className="flex flex-col justify-around">
+            <h2>{props.job[jobIndex].jobTitle}</h2>
+            <h3>{props.job[jobIndex].companyName}</h3>
+            <p>{props.job[jobIndex].description}</p>
+          </div>
 
-        <div style={{ margin: "20px" }}>
-          <p>Location(s)</p>
-          <p>Salary</p>
+          <div
+            className="flex flex-col justify-between"
+            style={{ margin: "20px" }}
+          >
+            <p>Salary : {props.job[jobIndex].salary} LPA</p>
+            <button
+              onClick={() => {
+                applyToJob(props.job[jobIndex].jobId);
+              }}
+            >
+              Apply Now
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>No Job selected</div>
+      )}
     </>
   );
 };

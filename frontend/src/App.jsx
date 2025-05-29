@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import PostJob from "./pages/PostJob";
 import { useEffect, useState } from "react";
 import Profile from "./pages/Profile";
+import JobApplicants from "./pages/JobApplicants";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState();
@@ -36,6 +37,10 @@ function App() {
           <Route
             path="/profile/:userId"
             element={<ProfileComponent></ProfileComponent>}
+          ></Route>
+          <Route 
+          path="/job/:jobId/applicants"
+          element={<JobApplicants></JobApplicants>}
           ></Route>
         </Routes>
       </BrowserRouter>

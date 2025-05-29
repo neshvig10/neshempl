@@ -4,10 +4,11 @@ import JobListEmployer from "../components/JobListEmployer";
 import SearchBar from "../components/SearchBar";
 import JobDescription from "../components/JobDescription";
 import axios from "axios";
+import { DescriptionContext } from "../contexts/DescriptionContext";
 
 const HomePage = () => {
   const [jobs, setJobs] = useState([]);
-  const [jobIndex, setJobIndex] = useState(1);
+  // const [jobIndex, setJobIndex] = useState(0);
   const [jobsPostedByUser, setJobsPostedByUser] = useState([]);
 
   const fetchJobsPostedByUser = async () => {
@@ -17,7 +18,7 @@ const HomePage = () => {
           localStorage.getItem("userId")
       );
       console.log(response);
-      console.log(response.data);
+      console.log("jobsfetchedbyhomepage",response.data);
       const jobsList = [];
       for (let i = 0;i<response.data.length;i++){
         const response1 = await axios.get("http://localhost:8080/api/job/jobbyid?jobId="+response.data[i]);
@@ -29,7 +30,7 @@ const HomePage = () => {
 
   const retrieveJobs = async () => {
     const jobList = await axios.get("http://localhost:8080/api/job/getjobs");
-    console.log(jobList.data);
+    console.log("jobsfetchedbyhomepage",jobList.data);
     // console.log(jobList.data[2]);
     setJobs(jobList.data);
   };
@@ -37,12 +38,13 @@ const HomePage = () => {
   useEffect(() => {
     retrieveJobs();
     fetchJobsPostedByUser();
+    
   }, []);
 
   return (
     <>
       {localStorage.getItem("userRoleAuth") === "EMPLOYER" ? (
-        <div className="flex flex-col" style={{ paddingTop: "70px" }}>
+        <div className="flex flex-col" style={{ width : "650px", paddingTop: "70px" }}>
           <h2>Job(s) posted by you : </h2>
           <div className="flex flex-row justify-around">
             <div
@@ -71,8 +73,6 @@ const HomePage = () => {
             >
               <JobListEmployee
                 jobs={jobs}
-                jobIndex={jobIndex}
-                setJobIndex={setJobIndex}
               ></JobListEmployee>
             </div>
             <div
@@ -83,7 +83,7 @@ const HomePage = () => {
                 border: "2px solid",
               }}
             >
-              <JobDescription job={jobs} jobIndex={jobIndex}></JobDescription>
+              <JobDescription job={jobs}></JobDescription>
             </div>
           </div>
         </div>

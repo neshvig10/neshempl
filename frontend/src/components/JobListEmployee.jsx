@@ -2,6 +2,10 @@ import { React} from "react";
 import Job from "./Job";
 
 const JobListEmployee = (props) => {
+
+  console.log("joblistEmployeeprops",props);
+  
+
   return (
     <>
       <div
@@ -13,9 +17,11 @@ const JobListEmployee = (props) => {
             key={job.jobId}
             title={job.jobTitle}
             company={job.companyName}
-            location={job.locations}
+            location={job.jobLocations}
             experience={job.experienceRequired}
-            onClick={props.setJobIndex(job.jobId)}
+            description={job.description}
+            skills={job.jobSkills}
+            jobIndex={props.jobs.indexOf(job)}
           ></Job>
         ))}
       </div>

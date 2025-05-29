@@ -48,7 +48,7 @@ public class ResumeController {
     }
 
     @PostMapping(value = "/analyzeresume")
-    public String analyzeresume(Long resumeId) throws IOException, InterruptedException, ParseException {
+    public String analyzeResume(Long resumeId) throws IOException, InterruptedException, ParseException {
         return resumeService.analyzeResume(resumeId);
     }
 

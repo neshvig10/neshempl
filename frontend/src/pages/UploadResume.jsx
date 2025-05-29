@@ -10,6 +10,31 @@ const UploadResume = () => {
   const [jobsFound, setJobsFound] = useState([]);
   const navigate = useNavigate();
 
+  const applyToJob = async (jobId) => {
+    const response = await axios.post(
+      "http://localhost:8080/api/job/applytojob?" +
+        "jobId=" +
+        jobId +
+        "&userId=" +
+        localStorage.getItem("userId") +
+        "&resumeId=" +
+        selectedResumeId
+    );
+    console.log(response.data);
+  };
+
+  const appliedToJobOrNot = async (jobId) => {
+    const response = await axios.get(
+      "http://localhost:8080/api/job/appliedtojobornot?" +
+        "jobId=" +
+        jobId +
+        "&userId=" +
+        localStorage.getItem("userId")
+    );
+    console.log(response.data);
+    return response.data;
+  };
+
   const findJobsForResume = async () => {
     const response = await axios.post(
       "http://localhost:8080/api/resume/analyzeresume?resumeId=" +
@@ -39,6 +64,8 @@ const UploadResume = () => {
       type: "application/pdf",
     });
     const fileURL = URL.createObjectURL(file);
+    console.log("fileUrl",fileURL);
+    
     setPdfUrl(fileURL);
     console.log(selectedResumeFile);
   };
@@ -231,25 +258,56 @@ const UploadResume = () => {
           <h3>Job Results</h3>
           {jobsFound ? (
             jobsFound.map((job) => (
-              <div key={job.jobId[0]} style={{backgroundColor : "#FFE89DFF",borderStyle : "solid", margin : "4px", padding : "4px",borderWidth: "2px"}}>
+              <div
+                key={job.jobId[0]}
+                style={{
+                  backgroundColor: "#FFE89DFF",
+                  borderStyle: "solid",
+                  margin: "4px",
+                  padding: "4px",
+                  borderWidth: "2px",
+                }}
+              >
                 <h3>{job.jobTitle[0]}</h3>
                 <h4>Description : {job.jobDescription[0]}</h4>
-                <p>Experience Required : {job.jobExperienceRequired[0]} years</p>
+                <p>
+                  Experience Required : {job.jobExperienceRequired[0]} years
+                </p>
                 <p>Matching Score : {job.matchScore}</p>
                 <p>Match Reason : {job.reasonForScore}</p>
-                <button
-                  onClick={getResume}
-                  style={{
-                    marginTop: "20px",
-                    height: "30px",
-                    width: "120px",
-                    backgroundColor: "#fcd34d",
-                    borderColor: "#fcd34d",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Apply Now
-                </button>
+
+                {!appliedToJobOrNot(job.jobId[0]) ? (
+                  <button
+                    onClick={() => {
+                      applyToJob(job.jobId[0]);
+                    }}
+                    style={{
+                      marginLeft: "660px",
+                      marginTop: "20px",
+                      height: "30px",
+                      width: "120px",
+                      backgroundColor: "#fcd34d",
+                      borderColor: "#fcd34d",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Apply Now
+                  </button>
+                ) : (
+                  <div
+                    style={{
+                      marginLeft: "660px",
+                      marginTop: "20px",
+                      height: "30px",
+                      width: "120px",
+                      backgroundColor: "#FC7F4DFF",
+                      borderColor: "#fcd34d",
+                      borderRadius: "4px",
+                    }}
+                  >
+                    Applied already
+                  </div>
+                )}
               </div>
             ))
           ) : (

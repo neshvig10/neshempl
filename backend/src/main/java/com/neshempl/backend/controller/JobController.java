@@ -2,13 +2,16 @@ package com.neshempl.backend.controller;
 
 import com.neshempl.backend.dto.JobRequest;
 import com.neshempl.backend.entity.Job;
+import com.neshempl.backend.entity.JobApplication;
+import com.neshempl.backend.entity.Resume;
+import com.neshempl.backend.entity.User;
 import com.neshempl.backend.service.JobService;
+import jakarta.persistence.Entity;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -44,5 +47,19 @@ public class JobController {
         jobService.deleteJobPosting(jobId);
     }
 
+    @PostMapping(value = "/applytojob")
+    public String applyToJob(@RequestParam Long jobId, @RequestParam Long userId, @RequestParam Long resumeId){
+        return jobService.applyToJob(jobId,userId,resumeId);
+    }
+
+    @GetMapping(value = "/appliedtojobornot")
+    public boolean appliedToJobOrNot(@RequestParam Long jobId,@RequestParam Long userId){
+        return jobService.appliedToJobOrNot(jobId,userId);
+    }
+
+    @GetMapping(value = "/applicantsofjob")
+    public List<Object[]> applicantsOfJob(@RequestParam Long jobId){
+        return jobService.applicationsOfJob(jobId);
+    }
 
 }

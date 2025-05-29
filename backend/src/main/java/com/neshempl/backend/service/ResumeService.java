@@ -26,4 +26,6 @@ public interface ResumeService {
     String analyzeResume(Long resumeId) throws IOException, InterruptedException, ParseException;
 
     public String deleteResume(Long resumeId);
+
+    String analyzeJobApplication(Long resumeId, Long jobId) throws IOException;
 }

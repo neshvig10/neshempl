@@ -153,7 +153,7 @@ public class ResumeServiceImplement implements ResumeService {
                         "Resume Content : " + content +
                                 "Job Details : " + jobEntry +
                                 """ 
-                                        Given the user resume and job details, match each of them with a score in range 1 to 10
+                                        Given my resume and the job details, match each of them with a score in range 1 to 10
                                         Give the output as
                                         {
                                             matchScore : how well the job and resume matches
@@ -184,6 +184,42 @@ public class ResumeServiceImplement implements ResumeService {
 
     }
 
+    public String analyzeJobApplication(Long resumeId, Long jobId) throws IOException {
+        Resume resume = resumeRepository.getReferenceById(resumeId);
+        File pdfFile = new File(resume.getResumeFilePath());
+        PDDocument pdDocument = Loader.loadPDF(pdfFile);
+        PDFTextStripper pdfTextStripper = new PDFTextStripper();
+        String pdfText = pdfTextStripper.getText(pdDocument);
+        System.out.println(pdfText);
+        pdDocument.close();
+        Job job = jobService.getJobById(jobId);
+        String jobDetails =
+                ",jobTitle : " + job.getJobTitle() +
+                        ",jobDescription : " + job.getDescription() +
+                        ",jobExperienceRequired : " + job.getExperienceRequired().toString();
+        String prompt =
+                "Resume Content : " + pdfText + "." +
+                        "Job Details : " + jobDetails + "." +
+                """
+                
+                I'm an employer, I want to check how well this resume matches with the job description.
+                Given resume content and job details, match the resume with job description in scale of 1-10,
+                give the output in form of :
+                {
+                    match : how well the resume matches to this job,
+                    reason : reason for the score
+                }
+                """;
+        Client client = Client.builder().apiKey(GeminiAPIKey).build();
+
+        GenerateContentResponse response =
+                client.models.generateContent("gemini-2.0-flash-001", prompt, null);
+        // Gets the text string from the response by the quick accessor method `text()`.
+        System.out.println("Unary response: " + response.text());
+
+        return response.text().replace("```", "").replace("json", "");
+    }
+
 
     @Override
     public String analyzeResume(Long resumeId) throws IOException, InterruptedException, ParseException {
@@ -198,6 +234,9 @@ public class ResumeServiceImplement implements ResumeService {
         System.out.println("AIResponse \n"+ AIresponse);
         return AIresponse.toString();
     }
+
+
+
 
 
 }

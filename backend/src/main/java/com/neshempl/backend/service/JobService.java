@@ -2,6 +2,10 @@ package com.neshempl.backend.service;
 
 import com.neshempl.backend.dto.JobRequest;
 import com.neshempl.backend.entity.Job;
+import com.neshempl.backend.entity.JobApplication;
+import com.neshempl.backend.entity.Resume;
+import com.neshempl.backend.entity.User;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,4 +23,11 @@ public interface JobService {
     Job getJobById(Long jobId);
 
     void deleteJobPosting(Long jobId);
+
+    String applyToJob(Long jobId, Long userId, Long resumeId);
+
+    boolean appliedToJobOrNot(Long jobId, Long userId);
+
+
+    List<Object[]> applicationsOfJob(Long jobId);
 }

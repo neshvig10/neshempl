@@ -5,6 +5,8 @@ import com.neshempl.backend.entity.*;
 import com.neshempl.backend.repository.*;
 import com.neshempl.backend.service.JobService;
 import jakarta.transaction.Transactional;
+import org.antlr.v4.runtime.misc.Pair;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,12 @@ public class JobServiceImplement implements JobService {
     @Autowired
     LocationRepository locationRepository;
 
+    @Autowired
+    JobApplicationRepository jobApplicationRepository;
+
+    @Autowired
+    ResumeRepository resumeRepository;
+
     @Override
     public String postJob(JobRequest jobRequest) {
 
@@ -62,9 +70,9 @@ public class JobServiceImplement implements JobService {
         String[] skills = jobRequest.getSkills().split(",");
         Set<Skill> jobSkills = new HashSet<>();
         for (String skill : skills){
-            Skill skill1 = skillRepository.getReferenceBySkillName(skill);
+            Skill skill1 = skillRepository.getReferenceBySkillName(skill.trim());
             if (skill1 == null){
-                skill1 = new Skill(skill);
+                skill1 = new Skill(skill.trim());
                 skillRepository.save(skill1);
             }
             jobSkills.add(skill1);
@@ -80,9 +88,9 @@ public class JobServiceImplement implements JobService {
         String[] locations = jobRequest.getLocations().split(",");
         Set<Location> jobLocations = new HashSet<>();
         for (String location : locations){
-            Location location1 = locationRepository.getReferenceByLocationName(location);
+            Location location1 = locationRepository.getReferenceByLocationName(location.trim());
             if (location1 == null){
-                location1 = new Location(location);
+                location1 = new Location(location.trim());
                 locationRepository.save(location1);
             }
             jobLocations.add(location1);
@@ -132,4 +140,26 @@ public class JobServiceImplement implements JobService {
     public List<Long> listJobsByUserId(Long userId) {
         return jobRepository.getReferenceByUserPosted(userId);
     }
+
+
+    public String applyToJob(Long jobId, Long userId, Long resumeId){
+        try{
+            JobApplication jobApplication = new JobApplication(jobRepository.getReferenceById(jobId),userRepository.getReferenceById(userId), resumeRepository.getReferenceById(resumeId));
+            jobApplicationRepository.save(jobApplication);
+            return "Applied to job successfully";
+        }catch (Exception error) {
+            return error.toString();
+        }
+    }
+
+    public boolean appliedToJobOrNot(Long jobId, Long userId){
+        List<User> listOfUsersApplied = jobApplicationRepository.findUserByJob(jobRepository.getReferenceById(jobId));
+        System.out.println("listofusersapplied"+listOfUsersApplied);
+        return listOfUsersApplied.contains(userRepository.getReferenceById(userId));
+    }
+
+    public List<Object[]> applicationsOfJob(Long jobId){
+        return jobApplicationRepository.findAllByJob(jobRepository.getReferenceById(jobId));
+    }
+
 }
